@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: classmere-api
+  labels:
+    app: classmere
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5000
+      targetPort: 80
+  selector:
+    app: classmere
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: classmere-api
+  labels:
+    app: classmere
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: classmere
+      tier: api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: classmere
+        tier: api
+    spec:
+      containers:
+      - image: api_api
+        imagePullPolicy: Never
+        name: api
+        env:
+        - name: MONGO_URL
+          value: "mongodb://classmere-mongo:27017/test"
+        ports:
+        - containerPort: 80
+          name: api
