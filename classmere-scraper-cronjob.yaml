@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: classmere-scraper
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - image: rutgerfarry/scraper
+            name: scraper
+            env:
+            - name: MONGO_URL
+              value: "mongodb://classmere-mongo:27017/test"
+          restartPolicy: OnFailure
