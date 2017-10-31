@@ -24,6 +24,8 @@ spec:
         env:
         - name: MONGO_URL
           value: "mongodb://classmere-mongo:27017/test"
+        - name: PORT
+          value: "80"
         ports:
         - containerPort: 80
           name: api
