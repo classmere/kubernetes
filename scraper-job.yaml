@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: classmere-scraper
+spec:
+  template:
+    spec:
+      containers:
+      - image: rutgerfarry/scraper
+        name: scraper
+        env:
+        - name: MONGO_URL
+          value: "mongodb://classmere-mongo:27017/test"
+      restartPolicy: OnFailure
